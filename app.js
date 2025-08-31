@@ -3,6 +3,18 @@ function sortear () {
     let de = parseInt(document.getElementById ('de').value);
     let ate = parseInt(document.getElementById ('ate').value);
 
+    if (de >= ate) {
+        alert ('Você inseriu um valor iniciar superior ou igual ao valor final, tente novamente.');
+        zerarCamposErro ();
+        return;
+    }
+
+    if (quantidade > (ate - de + 1)) {
+        alert ('A quantidade de números digitada é insuficiente, tente novamente');
+        zerarCamposErro ();
+        return;
+    }
+ 
     let sorteados = [];
     let numero;
 
@@ -15,17 +27,46 @@ function sortear () {
         
         sorteados.push (numero);
     }
-let resultado = document.getElementById ('resultado');
-resultado.innerHTML = `<label class="texto__paragrafo">Números sorteados:  ${sorteados}</label>`;
 
-}
+    let resultado = document.getElementById ('resultado');
+    resultado.innerHTML = `<label class="texto__paragrafo">Números sorteados:  ${sorteados.sort ((a, b) => a -b)}</label>`;
 
+    alterarStatusBotao ();  
 
-function reiniciar () {
-    
 }
 
 
 function obterNumeroAleatorio (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function alterarStatusBotao () {
+    let botaoReiniciar = document.getElementById ('btn-reiniciar');
+
+    if (botaoReiniciar.classList.contains ('container__botao-desabilitado')) {
+        botaoReiniciar.classList.remove ('container__botao-desabilitado');
+        botaoReiniciar.classList.add ('container__botao');
+        
+    } else {
+        botaoReiniciar.classList.remove ('container__botao');
+        botaoReiniciar.classList.add ('container__botao-desabilitado');
+    }
+}
+
+
+function reiniciar () {
+    document.getElementById ('quantidade').value = '';
+    document.getElementById ('de').value = '';
+    document.getElementById ('ate').value = '';
+    document.getElementById ('resultado').innerHTML = `<label class="texto__paragrafo">Números sorteados: nenhum até agora.</label>`;
+
+    alterarStatusBotao ();
+}
+
+
+function zerarCamposErro () {
+    document.getElementById ('quantidade').value = '';
+    document.getElementById ('de').value = '';
+    document.getElementById ('ate').value = '';
 }
